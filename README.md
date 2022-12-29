@@ -11,9 +11,16 @@ npm install hookmuts
 ```
 
 ## Usage
+
 This store was developed for build optimization and ease of use, using both SSR and CSR
 
-You can use initialValues in <Provider/> to init server constants
+You can use initialValues in
+
+```bash
+<Provider initialValues={{user:userFromServer}}/>
+```
+
+to init server constants
 
 ## License
 
