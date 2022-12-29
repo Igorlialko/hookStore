@@ -1,4 +1,4 @@
-# hookStore
+# hookmuts - React Store
 
 > Say: useReducer NO!
 
@@ -7,11 +7,13 @@
 ## Install
 
 ```bash
-npm install hookstore
+npm install hookmuts
 ```
 
 ## Usage
+This store was developed for build optimization and ease of use, using both SSR and CSR
 
+You can use initialValues in <Provider/> to init server constants
 
 ## License
 
