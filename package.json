@@ -1,10 +1,10 @@
 {
-  "name": "hookstore",
+  "name": "hookmuts",
   "version": "1.0.0",
-  "description": "Made with create-react-library",
+  "description": "React Store - hookmuts . Say useReducer No!",
   "author": "Igor Lialko",
   "license": "MIT",
-  "repository": "https://github.com/Igorlialko/hookStore",
+  "repository": "https://github.com/Igorlialko/hookmuts",
   "main": "dist/index.js",
   "module": "dist/index.modern.js",
   "source": "src/index.tsx",
