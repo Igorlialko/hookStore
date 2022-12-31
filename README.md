@@ -19,7 +19,7 @@ This store was developed for build optimization and ease of use, using both SSR 
 Init Store:
 
 ```ts
-import createStore from "hookStore";
+import createStore from "hookmuts";
 
 interface IInitialState {
   count: number,
@@ -130,7 +130,7 @@ function App() {
 So, you can create many modules :
 
 ```ts
-import createStore from "hookStore";
+import createStore from "hookmuts";
 
 export const {Provider, useSelector, useDispatch} = createStore({
   initialState: {

@@ -1,4 +1,4 @@
-import createStore from "hookStore";
+import createStore from "hookmuts";
 
 interface IInitialState {
   count: number,
