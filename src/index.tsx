@@ -1,10 +1,7 @@
 import React, { createContext, useContext, useMemo, useState } from 'react'
 
 interface ISelectorHook<TState> {
-  <TSelected>(
-    selector: (state: TState) => TSelected,
-    keys: keyof TState
-  ): TSelected
+  <TSelected>(selector: (state: TState) => TSelected): TSelected
 }
 
 interface IInitContext<TState> {
@@ -32,10 +29,9 @@ const createStore = <TInitialState,>({
     }
   }
 
-  const useSelector: ISelectorHook<GlobalContextType> = (selector, keys) => {
+  const useSelector: ISelectorHook<GlobalContextType> = (selector) => {
     const state: GlobalContextType = useContext(StateContext)
-    const memo = useMemo(() => selector(state), [keys])
-    return memo
+    return selector(state)
   }
 
   const Provider = ({
