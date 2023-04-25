@@ -1,56 +1,72 @@
-import React, {createContext, useContext, useMemo, useState} from 'react';
+import React, { createContext, useContext, useMemo, useState } from 'react'
 
 interface ISelectorHook<TState> {
-  <TSelected>(selector: (state: TState) => TSelected): TSelected;
+  <TSelected>(
+    selector: (state: TState) => TSelected,
+    keys: keyof TState
+  ): TSelected
 }
 
 interface IInitContext<TState> {
-  dispatch: (setter: (state: TState) => object) => void;
+  dispatch: (setter: (state: TState) => object) => void
 }
 
-const createStore = <TInitialState, >({
-                            initialState
-                          }: {
+const createStore = <TInitialState,>({
+  initialState
+}: {
   initialState: TInitialState
 }) => {
+  type GlobalContextType = typeof initialState
 
-  type GlobalContextType = typeof initialState;
+  const StateContext = createContext({} as GlobalContextType)
+  const DispatchContext = createContext({} as IInitContext<GlobalContextType>)
 
-  const StateContext = createContext({} as GlobalContextType);
-  const DispatchContext = createContext({} as IInitContext<GlobalContextType>);
-
-  const useDispatch = (mutation: (state: GlobalContextType, payload?: any) => object) => {
-    const {dispatch} = useContext<IInitContext<GlobalContextType>>(DispatchContext)
+  const useDispatch = (
+    mutation: (state: GlobalContextType, payload?: any) => object
+  ) => {
+    const { dispatch } =
+      useContext<IInitContext<GlobalContextType>>(DispatchContext)
 
     return (payload?: any) => {
-      dispatch((state: GlobalContextType) => mutation(state, payload));
-    };
-  };
+      dispatch((state: GlobalContextType) => mutation(state, payload))
+    }
+  }
 
-  const useSelector: ISelectorHook<GlobalContextType> = (selector) => {
+  const useSelector: ISelectorHook<GlobalContextType> = (selector, keys) => {
     const state: GlobalContextType = useContext(StateContext)
-    return selector(state);
-  };
+    const memo = useMemo(() => selector(state), [keys])
+    return memo
+  }
 
+  const Provider = ({
+    children,
+    initialValues
+  }: {
+    children: any
+    initialValues?: object
+  }) => {
+    const [state, setState] = useState<GlobalContextType>({
+      ...initialState,
+      ...initialValues
+    })
 
-  const Provider = ({children, initialValues}: { children: any, initialValues?: object }) => {
-    const [state, setState] = useState<GlobalContextType>({...initialState, ...initialValues});
+    const valueDispatch = useMemo(
+      () => ({
+        dispatch: (setter: (state: GlobalContextType) => object) => {
+          setState((prevState) => ({
+            ...prevState,
+            ...setter(prevState)
+          }))
+        }
+      }),
+      [setState]
+    )
 
-    const valueDispatch = useMemo(() => ({
-      dispatch: (setter: (state: GlobalContextType) => object) => {
-        setState((prevState) => ({
-          ...prevState,
-          ...setter(prevState),
-        }));
-      }
-    }), [setState])
-
-    return <DispatchContext.Provider value={valueDispatch}>
-      <StateContext.Provider
-        value={state}>
-        {children}
-      </StateContext.Provider>
-    </DispatchContext.Provider>;
+    return (
+      <DispatchContext.Provider value={valueDispatch}>
+        <StateContext.Provider value={state}>{children}</StateContext.Provider>
+      </DispatchContext.Provider>
+    )
   }
 
   return {
@@ -60,4 +76,4 @@ const createStore = <TInitialState, >({
   }
 }
 
-export default createStore;
+export default createStore
