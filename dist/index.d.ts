@@ -1,5 +1,5 @@
 interface ISelectorHook<TState> {
-    <TSelected>(selector: (state: TState) => TSelected, keys: keyof TState): TSelected;
+    <TSelected>(selector: (state: TState) => TSelected): TSelected;
 }
 declare const createStore: <TInitialState>({ initialState }: {
     initialState: TInitialState;

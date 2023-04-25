@@ -31,12 +31,9 @@ var createStore = function createStore(_ref) {
       });
     };
   };
-  var useSelector = function useSelector(selector, keys) {
+  var useSelector = function useSelector(selector) {
     var state = React.useContext(StateContext);
-    var memo = React.useMemo(function () {
-      return selector(state);
-    }, [keys]);
-    return memo;
+    return selector(state);
   };
   var Provider = function Provider(_ref2) {
     var children = _ref2.children,

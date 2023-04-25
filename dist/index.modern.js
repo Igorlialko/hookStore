@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useMemo, useState } from 'react';
+import React, { createContext, useContext, useState, useMemo } from 'react';
 
 function _extends() {
   _extends = Object.assign ? Object.assign.bind() : function (target) {
@@ -28,12 +28,9 @@ var createStore = function createStore(_ref) {
       });
     };
   };
-  var useSelector = function useSelector(selector, keys) {
+  var useSelector = function useSelector(selector) {
     var state = useContext(StateContext);
-    var memo = useMemo(function () {
-      return selector(state);
-    }, [keys]);
-    return memo;
+    return selector(state);
   };
   var Provider = function Provider(_ref2) {
     var children = _ref2.children,
